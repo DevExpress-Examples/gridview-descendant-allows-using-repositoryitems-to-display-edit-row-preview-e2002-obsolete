@@ -224,9 +224,7 @@ namespace CustomGrid_PreviewRow
         public virtual Rectangle GetRowPreviewEditBounds(GridDataRowInfo ri)
         {
             Rectangle r = new Rectangle(new Point(0, 0), ri.PreviewBounds.Size);            
-            r.Inflate(-this.Painter.ElementsPainter.RowPreview.GetPreviewTextHorizontalPadding(this) / 2, -this.Painter.ElementsPainter.RowPreview.GetPreviewTextVerticalPadding(this) / 2);
-            //r.X += this.Painter.ElementsPainter.RowPreview.GetPreviewTextHorizontalPadding(this) / 2;
-            r.Width -= this.Painter.ElementsPainter.RowPreview.GetPreviewTextHorizontalPadding(this) / 2;
+            r.Inflate(-this.Painter.ElementsPainter.RowPreview.GetPreviewTextHorizontalPadding(this) / 2, -this.Painter.ElementsPainter.RowPreview.GetPreviewTextVerticalPadding(this) / 2);            
             return r;
         }
         public override int CalcRowPreviewHeight(int rowHandle)
