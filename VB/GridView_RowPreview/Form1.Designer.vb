@@ -1,6 +1,4 @@
-Imports Microsoft.VisualBasic
-Imports System
-Namespace GridView_RowPreview
+﻿Namespace GridView_RowPreview
 	Partial Public Class Form1
 		''' <summary>
 		''' Required designer variable.
@@ -89,7 +87,8 @@ Namespace GridView_RowPreview
 			Me.Controls.Add(Me.customGridControl1)
 			Me.Name = "Form1"
 			Me.Text = "Form1"
-'			Me.Load += New System.EventHandler(Me.Form1_Load);
+'INSTANT VB NOTE: The following InitializeComponent event wireup was converted to a 'Handles' clause:
+'ORIGINAL LINE: this.Load += new System.EventHandler(this.Form1_Load);
 			CType(Me.customGridControl1, System.ComponentModel.ISupportInitialize).EndInit()
 			CType(Me.customGridView1, System.ComponentModel.ISupportInitialize).EndInit()
 			CType(Me.repositoryItemMemoEdit1, System.ComponentModel.ISupportInitialize).EndInit()
