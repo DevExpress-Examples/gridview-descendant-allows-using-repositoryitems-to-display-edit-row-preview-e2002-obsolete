@@ -71,7 +71,7 @@ namespace CustomGrid_PreviewRow
         {
             object result = null;
             if (PreviewFieldName.Length != 0 && DataController.IsReady)
-                result = DataController.GetRowValue(rowHandle, PreviewFieldHandle);
+                result = DataController.GetRowValue(rowHandle, PreviewFieldName);
             if (result is string) return GetRowPreviewDisplayText(rowHandle);
             return result;
         }
@@ -131,7 +131,7 @@ namespace CustomGrid_PreviewRow
             if (PreviewRowEdit == null || FocusedColumn != null) return;
             try
             {
-                DataController.SetRowValue(rowHandle, PreviewFieldHandle, value);
+                DataController.SetRowValue(rowHandle, PreviewFieldName, value);
                 UpdateRowAutoHeight(rowHandle);
                 if (rowHandle == FocusedRowHandle && FocusedColumn == null)
                 {
@@ -223,10 +223,10 @@ namespace CustomGrid_PreviewRow
         }
         public virtual Rectangle GetRowPreviewEditBounds(GridDataRowInfo ri)
         {
-            Rectangle r = new Rectangle(new Point(0, 0), ri.PreviewBounds.Size);
-            r.Inflate(-GridRowPreviewPainter.PreviewTextIndent, -GridRowPreviewPainter.PreviewTextVIndent);
-            r.X += ri.PreviewIndent;
-            r.Width -= ri.PreviewIndent;
+            Rectangle r = new Rectangle(new Point(0, 0), ri.PreviewBounds.Size);            
+            r.Inflate(-this.Painter.ElementsPainter.RowPreview.GetPreviewTextHorizontalPadding(this) / 2, -this.Painter.ElementsPainter.RowPreview.GetPreviewTextVerticalPadding(this) / 2);
+            //r.X += this.Painter.ElementsPainter.RowPreview.GetPreviewTextHorizontalPadding(this) / 2;
+            r.Width -= this.Painter.ElementsPainter.RowPreview.GetPreviewTextHorizontalPadding(this) / 2;
             return r;
         }
         public override int CalcRowPreviewHeight(int rowHandle)
@@ -240,7 +240,7 @@ namespace CustomGrid_PreviewRow
         protected virtual int CalcRowPreviewEditorHeight(int rowHandle, RepositoryItem item)
         {
             if (!View.OptionsView.ShowPreview || View.IsGroupRow(rowHandle) || View.IsFilterRow(rowHandle)) return 0;
-            int res = (View.OptionsView.ShowPreviewLines ? 1 : 0);
+            int res = (View.OptionsView.ShowPreviewRowLines == DevExpress.Utils.DefaultBoolean.False ? 0 : 1);
             int eventHeight = View.RaiseMeasurePreviewHeightAccessMetod(rowHandle);
             if (eventHeight != -1) return eventHeight == 0 ? 0 : res + eventHeight;
             Graphics g = GInfo.AddGraphics(null);
@@ -249,8 +249,8 @@ namespace CustomGrid_PreviewRow
                 IHeightAdaptable ha = fRowPreviewViewInfo as IHeightAdaptable;
                 if (ha != null)
                 {
-                    fRowPreviewViewInfo.EditValue = View.GetRowPreviewValue(rowHandle);
-                    res = ha.CalcHeight(GInfo.Cache, this.CalcRowPreviewWidth(rowHandle) - this.PreviewIndent - GridRowPreviewPainter.PreviewTextIndent * 2);
+                    fRowPreviewViewInfo.EditValue = View.GetRowPreviewValue(rowHandle);  
+                    res = ha.CalcHeight(GInfo.Cache, this.CalcRowPreviewWidth(rowHandle) - this.Painter.ElementsPainter.RowPreview.GetPreviewIndent(this) - this.Painter.ElementsPainter.RowPreview.GetPreviewTextHorizontalPadding(this) * 2);
                 }
                 res = Math.Max(fRowPreviewViewInfo.CalcMinHeight(g), res);
             }
@@ -258,7 +258,7 @@ namespace CustomGrid_PreviewRow
             {
                 GInfo.ReleaseGraphics();
             }
-            res += GridRowPreviewPainter.PreviewTextVIndent * 2;
+            res += this.Painter.ElementsPainter.RowPreview.GetPreviewTextVerticalPadding(this);
             return res;
         }
         protected override void CalcRowHitInfo(Point pt, GridRowInfo ri, GridHitInfo hi)
