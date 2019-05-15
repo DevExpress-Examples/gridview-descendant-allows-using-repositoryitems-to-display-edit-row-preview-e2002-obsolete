@@ -254,9 +254,6 @@ Namespace CustomGrid_PreviewRow
 			Dim r As New Rectangle(New Point(0, 0), ri.PreviewBounds.Size)
 'INSTANT VB WARNING: Instant VB cannot determine whether both operands of this division are integer types - if they are then you should use the VB integer division operator:
 			r.Inflate(-Me.Painter.ElementsPainter.RowPreview.GetPreviewTextHorizontalPadding(Me) / 2, -Me.Painter.ElementsPainter.RowPreview.GetPreviewTextVerticalPadding(Me) / 2)
-			'r.X += this.Painter.ElementsPainter.RowPreview.GetPreviewTextHorizontalPadding(this) / 2;
-'INSTANT VB WARNING: Instant VB cannot determine whether both operands of this division are integer types - if they are then you should use the VB integer division operator:
-			r.Width -= Me.Painter.ElementsPainter.RowPreview.GetPreviewTextHorizontalPadding(Me) / 2
 			Return r
 		End Function
 		Public Overrides Function CalcRowPreviewHeight(ByVal rowHandle As Integer) As Integer
